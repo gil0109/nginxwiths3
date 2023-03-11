@@ -35,6 +35,7 @@ jobs:
   approve-payments-dev:
     name: Approve Deploy to Payments Dev
     if: github.repository_owner == 'gil0109'
+    needs: payment-website
     environment: Payments Dev
     runs-on: ubuntu-latest
 
