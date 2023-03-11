@@ -34,6 +34,14 @@ on:
         required: true
       openshift-registry:
         required: true
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        requried: true
+      AWS_ENDPOINT_URL:
+        required: true
+      S3_BUCKET_NAME:
+        required: true
 
 jobs:
   build:
