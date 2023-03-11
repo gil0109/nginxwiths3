@@ -81,7 +81,7 @@ jobs:
         with:
           allow_issue_writing: false
           cmd_options: '-z "-config scanner.threadPerHost=20"'
-          target: ${{ secrets.ZAP_STAFFURL_payments_DEV  }}
+          target: ${{ secrets.ZAP_PAYMENTS_DEV  }}
 
       - name: Upload Report as Artifact
         uses: actions/upload-artifact@v3
