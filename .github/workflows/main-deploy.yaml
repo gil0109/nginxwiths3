@@ -23,7 +23,6 @@ jobs:
       directory: paymentswebsite
       image-name: paymentwebsite
       image-tags: commit-${GITHUB_SHA::7} latest
-      push-qms: ${{ github.repository_owner == 'bcgov' }}
       push-payments: ${{ github.repository_owner == 'bcgov' }}
 
 
