@@ -78,11 +78,10 @@ jobs:
         context: ${{ inputs.directory }}
         image: ${{ inputs.image-name }}
         tags: ${{ env.IMAGE_TAGS }}
-        build-args: |
-            --build-arg aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }}
-            --build-arg aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            --build-arg aws_endpoint_url=${{ secrets.AWS_ENDPOINT_URL }}
-            --build-arg s3_bucket_name=${{ secrets.S3_BUCKET_NAME }}
+        build-args: AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_ENDPOINT_URL=${{ secrets.AWS_ENDPOINT_URL }}
+          S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }}
 
     - name: Debug for errors
       run: cd /var/tmp; df -h .
