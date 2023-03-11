@@ -9,7 +9,7 @@ jobs:
   ##### BUILD ##################################################################
 
   payment-website:
-    name: paymentwebsite
+    name: paymentswebsite
     uses: ./.github/workflows/reusable-build-dockerfile.yaml
     secrets:
       artifactory-password: ${{ secrets.ARTIFACTORY_PASSWORD }}
@@ -52,7 +52,7 @@ jobs:
       openshift-api: ${{ secrets.OPENSHIFT_API }}
       token: ${{ secrets.SA_PASSWORD_PAYMENTS_TOOLS }}
     with:
-      image-names: paymentwebsite
+      image-names: paymentswebsite
       tag-from: commit-${GITHUB_SHA::7}
       tag-to: dev
 
