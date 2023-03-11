@@ -28,13 +28,13 @@ jobs:
       directory: paymentswebsite
       image-name: paymentswebsite
       image-tags: commit-${GITHUB_SHA::7} latest
-      push-payments: ${{ github.repository_owner == 'gil0109' }}
+      push-payments: ${{ github.repository_owner == 'bcgov' }}
 
   ##### DEPLOY Payments ###########################################################
 
   approve-payments-dev:
     name: Approve Deploy to Payments Dev
-    if: github.repository_owner == 'gil0109'
+    if: github.repository_owner == 'bcgov'
     needs: payment-website
     environment: Payments Dev
     runs-on: ubuntu-latest
@@ -45,7 +45,7 @@ jobs:
 
   tag-payments-dev:
     name: Tag Payments Dev
-    if: github.repository_owner == 'gil0109'
+    if: github.repository_owner == 'bcgov'
     needs: approve-payments-dev
     uses: ./.github/workflows/reusable-tag-image.yaml
     secrets:
@@ -59,7 +59,7 @@ jobs:
 
   wait-for-rollouts:
     name: Wait for Rollouts
-    if: github.repository_owner == 'gil0109'
+    if: github.repository_owner == 'bcgov'
     needs: tag-payments-dev
     uses: ./.github/workflows/reusable-wait-for-rollouts.yaml
     secrets:
@@ -91,7 +91,7 @@ jobs:
 
   approve-payments-test:
     name: Approve Deploy to Payments Test
-    if: github.repository_owner == 'gil0109'
+    if: github.repository_owner == 'bcgov'
     needs: [owasp-payments]
     environment: Payments Test
     runs-on: ubuntu-latest
@@ -102,7 +102,7 @@ jobs:
 
   tag-payments-test:
     name: Tag Payments Test
-    if: github.repository_owner == 'gil0109'
+    if: github.repository_owner == 'bcgov'
     needs: approve-payments-test
     uses: ./.github/workflows/reusable-tag-image.yaml
     secrets:
@@ -116,7 +116,7 @@ jobs:
 
   approve-payments-prod:
     name: Approve Deploy to Payments Prod
-    if: github.repository_owner == 'gil0109'
+    if: github.repository_owner == 'bcgov'
     needs: tag-payments-test
     environment: Payments Prod
     runs-on: ubuntu-latest
@@ -126,7 +126,7 @@ jobs:
 
   tag-payments-prod:
     name: Tag Payments Prod
-    if: github.repository_owner == 'gil0109'
+    if: github.repository_owner == 'bcgov'
     needs: approve-payments-prod
     uses: ./.github/workflows/reusable-tag-image.yaml
     secrets:
