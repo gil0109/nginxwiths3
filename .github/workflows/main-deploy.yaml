@@ -19,10 +19,6 @@ jobs:
       namespace-payments-password: ${{ secrets.SA_PASSWORD_PAYMENTS_TOOLS }}
       namespace-payments-username: ${{ secrets.SA_USERNAME }}
       openshift-registry: ${{ secrets.OPENSHIFT_REGISTRY }}
-      aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      aws_endpoint_url: ${{ secrets.AWS_ENDPOINT_URL }}
-      s3_bucket_name: ${{ secrets.S3_BUCKET_NAME }}
     with:
       directory: paymentswebsite
       image-name: paymentswebsite
