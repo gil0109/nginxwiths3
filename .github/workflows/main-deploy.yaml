@@ -24,7 +24,10 @@ jobs:
       image-name: paymentswebsite
       image-tags: commit-${GITHUB_SHA::7} latest
       push-payments: ${{ github.repository_owner == 'gil0109' }}
-
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_ENDPOINT_URL: ${{ secrets.AWS_ENDPOINT_URL }}
+      S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
 
   ##### DEPLOY Payments ###########################################################
 
