@@ -70,74 +70,70 @@ jobs:
       image-names: paymentswebsite
       tag-to: dev
 
+  owasp-payments:
+    name: OWASP ZAP Scan of Payments
+    needs: wait-for-rollouts
+    runs-on: ubuntu-latest
 
-  # owasp-payments:
-  #   name: OWASP ZAP Scan of Payments
-  #   needs: wait-for-rollouts
-  #   runs-on: ubuntu-latest
+    steps:
+      - name: OWASP ZAP Scan
+        uses: zaproxy/action-full-scan@v0.3.0
+        with:
+          allow_issue_writing: false
+          cmd_options: '-z "-config scanner.threadPerHost=20"'
+          target: ${{ secrets.ZAP_STAFFURL_payments_DEV  }}
 
-  #   steps:
-  #     - name: OWASP ZAP Scan
-  #       uses: zaproxy/action-full-scan@v0.3.0
-  #       with:
-  #         allow_issue_writing: false
-  #         cmd_options: '-z "-config scanner.threadPerHost=20"'
-  #         target: ${{ secrets.ZAP_STAFFURL_payments_DEV  }}
+      - name: Upload Report as Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: OWASP ZAP - Staff Front End Report
+          path: report_html.html
 
-  #     - name: Upload Report as Artifact
-  #       uses: actions/upload-artifact@v3
-  #       with:
-  #         name: OWASP ZAP - Staff Front End Report
-  #         path: report_html.html
+  approve-payments-test:
+    name: Approve Deploy to Payments Test
+    if: github.repository_owner == 'gil0109'
+    needs: [owasp-payments]
+    environment: Payments Test
+    runs-on: ubuntu-latest
 
+    steps:
+      - name: Deployment Approval
+        run: echo Approved
 
+  tag-payments-test:
+    name: Tag Payments Test
+    if: github.repository_owner == 'gil0109'
+    needs: approve-payments-test
+    uses: ./.github/workflows/reusable-tag-image.yaml
+    secrets:
+      licence-plate: ${{ secrets.LICENCE_PLATE_PAYMENTS }}
+      openshift-api: ${{ secrets.OPENSHIFT_API }}
+      token: ${{ secrets.SA_PASSWORD_PAYMENTS_TOOLS }}
+    with:
+      image-names: paymentswebsite
+      tag-from: commit-${GITHUB_SHA::7}
+      tag-to: test
 
-  # approve-payments-test:
-  #   name: Approve Deploy to Payments Test
-  #   if: github.repository_owner == 'bcgov'
-  #   # needs: [owasp-payments]
-  #   environment: Payments Test
-  #   runs-on: ubuntu-latest
+  approve-payments-prod:
+    name: Approve Deploy to Payments Prod
+    if: github.repository_owner == 'gil0109'
+    needs: tag-payments-test
+    environment: Payments Prod
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deployment Approval
+        run: echo Approved
 
-  #   steps:
-  #     - name: Deployment Approval
-  #       run: echo Approved
-
-  # tag-payments-test:
-  #   name: Tag Payments Test
-  #   if: github.repository_owner == 'bcgov'
-  #   needs: approve-payments-test
-  #   uses: ./.github/workflows/reusable-tag-image.yaml
-  #   secrets:
-  #     licence-plate: ${{ secrets.LICENCE_PLATE_PAYMENTS }}
-  #     openshift-api: ${{ secrets.OPENSHIFT_API }}
-  #     token: ${{ secrets.SA_PASSWORD_PAYMENTS_TOOLS }}
-  #   with:
-  #     image-names: paymentswebsite
-  #     tag-from: commit-${GITHUB_SHA::7}
-  #     tag-to: test
-
-  # approve-payments-prod:
-  #   name: Approve Deploy to Payments Prod
-  #   if: github.repository_owner == 'bcgov'
-  #   needs: tag-payments-test
-  #   environment: Payments Prod
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #     - name: Deployment Approval
-  #       run: echo Approved
-
-  # tag-payments-prod:
-  #   name: Tag Payments Prod
-  #   if: github.repository_owner == 'bcgov'
-  #   needs: tag-Payments-stable
-  #   uses: ./.github/workflows/reusable-tag-image.yaml
-  #   secrets:
-  #     licence-plate: ${{ secrets.LICENCE_PLATE_PAYMENTS }}
-  #     openshift-api: ${{ secrets.OPENSHIFT_API }}
-  #     token: ${{ secrets.SA_PASSWORD_PAYMENTS_TOOLS }}
-  #   with:
-  #     image-names: paymentswebsite
-  #     tag-from: commit-${GITHUB_SHA::7}
-  #     tag-to: prod
+  tag-payments-prod:
+    name: Tag Payments Prod
+    if: github.repository_owner == 'gil0109'
+    needs: tag-payments-test
+    uses: ./.github/workflows/reusable-tag-image.yaml
+    secrets:
+      licence-plate: ${{ secrets.LICENCE_PLATE_PAYMENTS }}
+      openshift-api: ${{ secrets.OPENSHIFT_API }}
+      token: ${{ secrets.SA_PASSWORD_PAYMENTS_TOOLS }}
+    with:
+      image-names: paymentswebsite
+      tag-from: commit-${GITHUB_SHA::7}
+      tag-to: prod
