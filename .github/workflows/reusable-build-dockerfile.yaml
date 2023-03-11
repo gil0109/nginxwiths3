@@ -59,7 +59,7 @@ jobs:
         echo "IMAGE_TAGS=${{ inputs.image-tags }}" >> $GITHUB_ENV
 
     - name: Check out
-      uses: actions/checkout@v3.3.0
+      uses: actions/checkout@v3
       with:
         ref: ${{ inputs.ref }}
 
@@ -80,7 +80,7 @@ jobs:
 
     - name: Buildah Build
       id: build-image
-      uses: redhat-actions/buildah-build@v2.12
+      uses: redhat-actions/buildah-build@v2
       with:
         containerfiles: ${{ inputs.directory }}/Dockerfile
         context: ${{ inputs.directory }}
@@ -100,7 +100,7 @@ jobs:
 
     - name: Push Image to Payments
       if: inputs.push-payments
-      uses: redhat-actions/push-to-registry@v2.7.1
+      uses: redhat-actions/push-to-registry@v2
       with:
         extra-args: --log-level=debug
         image: ${{ steps.build-image.outputs.image }}
