@@ -21,7 +21,7 @@ jobs:
       openshift-registry: ${{ secrets.OPENSHIFT_REGISTRY }}
     with:
       directory: paymentswebsite
-      image-name: paymentwebsite
+      image-name: paymentswebsite
       image-tags: commit-${GITHUB_SHA::7} latest
       push-payments: ${{ github.repository_owner == 'bcgov' }}
 
