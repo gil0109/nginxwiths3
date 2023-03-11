@@ -127,7 +127,7 @@ jobs:
   tag-payments-prod:
     name: Tag Payments Prod
     if: github.repository_owner == 'gil0109'
-    needs: tag-payments-test
+    needs: approve-payments-prod
     uses: ./.github/workflows/reusable-tag-image.yaml
     secrets:
       licence-plate: ${{ secrets.LICENCE_PLATE_PAYMENTS }}
