@@ -59,7 +59,6 @@
           add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" preload; \n \
           add_header X-XSS-Protection "1; mode=block" always; \n \
           add_header Referrer-Policy @same-origin@ always; \n \
-          add_header X-Content-Type-Options "nosniff" always; \n \
           add_header X-Frame-Options "DENY" always; \n \
           add_header X-Robots-Tag none; \n \
           add_header Permissions-Policy "geolocation=(),midi=(),sync-xhr=(),microphone=(),camera=(),magnetometer=(),gyroscope=(),fullscreen=(self),payment=()" always; \n \
