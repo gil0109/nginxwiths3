@@ -51,7 +51,6 @@
         scgi_temp_path        /tmp/scgi_temp; \n \
         default_type  application/octet-stream; \n \
         underscores_in_headers on; \n \
-        add_header X-Content-Type-Options "nosniff"; \n \
         add_header Set-Cookie "cookie_name=cookie_value; Path=/; Secure; HttpOnly; SameSite=Strict" always; \n \
         add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always; \n \
         add_header X-XSS-Protection "1; mode=block" always; \n \
@@ -65,6 +64,7 @@
         \n \
         \n \
         server { \n \
+          add_header X-Content-Type-Options nosniff; \n \
           listen 8080; \n \
           server_name _; \n \
         \n \
