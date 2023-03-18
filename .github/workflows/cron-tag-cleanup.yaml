@@ -12,7 +12,7 @@ jobs:
     secrets:
       namespace: ${{ secrets.LICENCE_PLATE_PAYMENTS }}-tools
       openshift-api: ${{ secrets.OPENSHIFT_API }}
-      openshift-token: ${{ SA_PASSWORD_PAYMENTS_TOOLS }}
+      openshift-token: ${{ secrets.SA_PASSWORD_PAYMENTS_TOOLS }}
     with:
       number-to-keep: 3
 
