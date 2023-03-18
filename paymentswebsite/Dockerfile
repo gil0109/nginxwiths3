@@ -1,17 +1,32 @@
       FROM artifacts.developer.gov.bc.ca/docker-remote/alpine:latest as build-stage
+
+
       # Set AWS credentials
+
       ARG AWS_ACCESS_KEY_ID
+
       ARG AWS_SECRET_ACCESS_KEY
+
       ARG AWS_ENDPOINT_URL
+
       ENV AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+
       ENV AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+
       ENV AWS_ENDPOINT_URL=$AWS_ENDPOINT_URL
 
+
       # Set S3 bucket name and object prefix using environment variables
+
       ARG S3_BUCKET_NAME
+
       ARG S3_OBJECT_PREFIX
+
+
       # Download website content from S3 bucket
+
       WORKDIR /app
+
       RUN apk add --no-cache aws-cli unzip && \
           aws --endpoint-url=$AWS_ENDPOINT_URL s3 sync s3://$S3_BUCKET_NAME/$S3_OBJECT_PREFIX /app && \
           unzip *.zip -d /app && \
@@ -45,15 +60,14 @@
       server { \n \
       \n \
         add_header Strict-Transport-Security "max-age=31536000;"; \n \
-      \n \
         add_header X-XSS-Protection "1; mode=block"; \n \
-      \n \
+        add_header Referrer-Policy @same-origin@; \n \
         add_header X-Content-Type-Options "nosniff"; \n \
-      \n \
         add_header X-Frame-Options "DENY"; \n \
-      \n \
+        add_header Permissions-Policy "geolocation=(),midi=(),sync-xhr=(),microphone=(),camera=(),magnetometer=(),gyroscope=(),fullscreen=(self),payment=()"; \n \
         add_header Cache-Control "no-cache,no-store,must-revalidate"; \n \
         add_header Pragma "no-cache"; \n \
+        add_header Content-Security-Policy "default-src @self@; script-src @self@; style-src @self@ @unsafe-inline@; img-src @self@ data:; font-src @self@; frame-ancestors @none@;"; \n \
       \n \
         listen 8080; \n \
         server_name _; \n \
@@ -78,9 +92,14 @@
         } \n \
       } \n \
       } \n' \
-          > /etc/nginx/nginx.conf
+          > /etc/nginx/nginx.conf 
+
+      RUN sed -i "s/@/'/g" /etc/nginx/nginx.conf
 
       RUN mkdir /app
+
       COPY --from=build-stage /app /app
+
       EXPOSE 8080:8080
+
       CMD ["nginx", "-g", "daemon off;"]
