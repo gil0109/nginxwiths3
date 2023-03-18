@@ -38,6 +38,7 @@
         } \n \
         \n \
         http { \n \
+        server_tokens off; \n \
         include       /etc/nginx/mime.types; \n \
         client_body_temp_path /tmp/client_temp; \n \
         proxy_temp_path       /tmp/proxy_temp_path; \n \
@@ -50,15 +51,15 @@
         \n \
         server { \n \
         \n \
-          add_header Strict-Transport-Security "max-age=31536000;"; \n \
+          add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always; \n \
           add_header X-XSS-Protection "1; mode=block"; \n \
           add_header Referrer-Policy @same-origin@; \n \
-          add_header X-Content-Type-Options "nosniff"; \n \
-          add_header X-Frame-Options "DENY"; \n \
+          add_header X-Content-Type-Options "nosniff" always; \n \
+          add_header X-Frame-Options "DENY" always; \n \
           add_header Permissions-Policy "geolocation=(),midi=(),sync-xhr=(),microphone=(),camera=(),magnetometer=(),gyroscope=(),fullscreen=(self),payment=()"; \n \
-          add_header Cache-Control "no-cache,no-store,must-revalidate"; \n \
-          add_header Pragma "no-cache"; \n \
-          add_header Content-Security-Policy "default-src @self@; script-src @self@; style-src @self@ @unsafe-inline@; img-src @self@ data:; font-src @self@; frame-ancestors @none@;"; \n \
+          add_header Cache-Control "no-cache,no-store,must-revalidate" always; \n \
+          add_header Pragma "no-cache" always; \n \
+          add_header Content-Security-Policy "default-src @self@; script-src @self@; style-src @self@ @unsafe-inline@; img-src @self@ data:; font-src @self@; frame-ancestors @none@;" always; \n \
         \n \
           listen 8080; \n \
           server_name _; \n \
