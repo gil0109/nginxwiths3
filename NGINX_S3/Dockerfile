@@ -51,15 +51,17 @@
         scgi_temp_path        /tmp/scgi_temp; \n \
         default_type  application/octet-stream; \n \
         underscores_in_headers on; \n \
+        add_header X-Content-Type-Options "nosniff"; \n \
         \n \
         server { \n \
         \n \
           add_header Set-Cookie "cookie_name=cookie_value; Path=/; Secure; HttpOnly; SameSite=Strict" always; \n \
-          add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always; \n \
+          add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" preload; \n \
           add_header X-XSS-Protection "1; mode=block" always; \n \
           add_header Referrer-Policy @same-origin@ always; \n \
           add_header X-Content-Type-Options "nosniff" always; \n \
           add_header X-Frame-Options "DENY" always; \n \
+          add_header X-Robots-Tag none; \n \
           add_header Permissions-Policy "geolocation=(),midi=(),sync-xhr=(),microphone=(),camera=(),magnetometer=(),gyroscope=(),fullscreen=(self),payment=()" always; \n \
           add_header Cache-Control "no-cache,no-store,must-revalidate" always; \n \
           add_header Pragma "no-cache" always; \n \
