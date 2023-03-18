@@ -41,6 +41,7 @@
         server_tokens off; \n \
         etag off; \n \
         autoindex off; \n \
+        proxy_cookie_path / "/; secure"; \n \
         client_max_body_size 1k; \n \
         include       /etc/nginx/mime.types; \n \
         client_body_temp_path /tmp/client_temp; \n \
@@ -53,13 +54,13 @@
         \n \
         server { \n \
         \n \
-          add_header Set-Cookie "cookie_name=cookie_value; Path=/; Secure; HttpOnly; SameSite=Strict"; \n \
+          add_header Set-Cookie "cookie_name=cookie_value; Path=/; Secure; HttpOnly; SameSite=Strict" always; \n \
           add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always; \n \
-          add_header X-XSS-Protection "1; mode=block"; \n \
-          add_header Referrer-Policy @same-origin@; \n \
+          add_header X-XSS-Protection "1; mode=block" always; \n \
+          add_header Referrer-Policy @same-origin@ always; \n \
           add_header X-Content-Type-Options "nosniff" always; \n \
           add_header X-Frame-Options "DENY" always; \n \
-          add_header Permissions-Policy "geolocation=(),midi=(),sync-xhr=(),microphone=(),camera=(),magnetometer=(),gyroscope=(),fullscreen=(self),payment=()"; \n \
+          add_header Permissions-Policy "geolocation=(),midi=(),sync-xhr=(),microphone=(),camera=(),magnetometer=(),gyroscope=(),fullscreen=(self),payment=()" always; \n \
           add_header Cache-Control "no-cache,no-store,must-revalidate" always; \n \
           add_header Pragma "no-cache" always; \n \
           add_header Content-Security-Policy "default-src @self@; script-src @self@; style-src @self@ @unsafe-inline@; img-src @self@ data:; font-src @self@; frame-ancestors @none@;" always; \n \
