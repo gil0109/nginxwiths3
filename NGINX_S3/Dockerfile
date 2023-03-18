@@ -56,7 +56,7 @@
         server { \n \
         \n \
           add_header Set-Cookie "cookie_name=cookie_value; Path=/; Secure; HttpOnly; SameSite=Strict" always; \n \
-          add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" preload; \n \
+          add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always; \n \
           add_header X-XSS-Protection "1; mode=block" always; \n \
           add_header Referrer-Policy @same-origin@ always; \n \
           add_header X-Frame-Options "DENY" always; \n \
