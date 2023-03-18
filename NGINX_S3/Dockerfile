@@ -39,6 +39,9 @@
         \n \
         http { \n \
         server_tokens off; \n \
+        etag off; \n \
+        autoindex off; \n \
+        client_max_body_size 1k; \n \
         include       /etc/nginx/mime.types; \n \
         client_body_temp_path /tmp/client_temp; \n \
         proxy_temp_path       /tmp/proxy_temp_path; \n \
@@ -46,11 +49,11 @@
         uwsgi_temp_path       /tmp/uwsgi_temp; \n \
         scgi_temp_path        /tmp/scgi_temp; \n \
         default_type  application/octet-stream; \n \
-        server_tokens off; \n \
         underscores_in_headers on; \n \
         \n \
         server { \n \
         \n \
+          add_header Set-Cookie "cookie_name=cookie_value; Path=/; Secure; HttpOnly; SameSite=Strict"; \n \
           add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always; \n \
           add_header X-XSS-Protection "1; mode=block"; \n \
           add_header Referrer-Policy @same-origin@; \n \
@@ -72,6 +75,10 @@
             root /app; \n \
             index  index.html; \n \
             try_files $uri $uri/ /index.html; \n \
+            # enable cookie validation \n \
+            if ($http_cookie ~* "^(?<cookie_name>[^=]+)=([^;]+)(;.*)?$") { \n \
+                add_header Set-Cookie "$cookie_name=$2; Path=/; HttpOnly; SameSite=strict"; \n \
+            } \n \
           } \n \
         \n \
             location /nginx_status { \n \
