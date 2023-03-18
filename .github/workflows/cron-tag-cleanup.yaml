@@ -6,7 +6,7 @@ on:
 
 jobs:
   paymentswebsite-commits:
-    if: github.repository_owner == 'bcgov'
+    if: github.repository_owner == 'gil0109'
     name: The Payments Website Commits
     uses: ./.github/workflows/reusable-tag-cleanup-commit.yaml
     secrets:
