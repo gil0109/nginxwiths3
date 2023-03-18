@@ -8,7 +8,7 @@ jobs:
   paymentswebsite-commits:
     if: github.repository_owner == 'gil0109'
     name: The Payments Website Commits
-    uses: ./.github/workflows/reusable-tag-cleanup-commit.yaml
+    uses: ./.github/workflows/_reusable-tag-cleanup-commit.yaml
     secrets:
       namespace: ${{ secrets.LICENCE_PLATE_PAYMENTS }}-tools
       openshift-api: ${{ secrets.OPENSHIFT_API }}

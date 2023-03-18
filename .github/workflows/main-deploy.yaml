@@ -10,7 +10,7 @@ jobs:
 
   payment-website:
     name: paymentswebsite
-    uses: ./.github/workflows/reusable-build-dockerfile.yaml
+    uses: ./.github/workflows/_reusable-build-dockerfile.yaml
     secrets:
       artifactory-password: ${{ secrets.ARTIFACTORY_PASSWORD }}
       artifactory-registry: ${{ secrets.ARTIFACTORY_REGISTRY }}
@@ -47,7 +47,7 @@ jobs:
     name: Tag Payments Dev
     if: github.repository_owner == 'gil0109'
     needs: approve-payments-dev
-    uses: ./.github/workflows/reusable-tag-image.yaml
+    uses: ./.github/workflows/_reusable-tag-image.yaml
     secrets:
       licence-plate: ${{ secrets.LICENCE_PLATE_PAYMENTS }}
       openshift-api: ${{ secrets.OPENSHIFT_API }}
@@ -61,7 +61,7 @@ jobs:
     name: Wait for Rollouts
     if: github.repository_owner == 'gil0109'
     needs: tag-payments-dev
-    uses: ./.github/workflows/reusable-wait-for-rollouts.yaml
+    uses: ./.github/workflows/_reusable-wait-for-rollouts.yaml
     secrets:
       licence-plate: ${{ secrets.LICENCE_PLATE_PAYMENTS }}
       openshift-api: ${{ secrets.OPENSHIFT_API }}
@@ -104,7 +104,7 @@ jobs:
     name: Tag Payments Test
     if: github.repository_owner == 'gil0109'
     needs: approve-payments-test
-    uses: ./.github/workflows/reusable-tag-image.yaml
+    uses: ./.github/workflows/_reusable-tag-image.yaml
     secrets:
       licence-plate: ${{ secrets.LICENCE_PLATE_PAYMENTS }}
       openshift-api: ${{ secrets.OPENSHIFT_API }}
@@ -128,7 +128,7 @@ jobs:
     name: Tag Payments Prod
     if: github.repository_owner == 'gil0109'
     needs: approve-payments-prod
-    uses: ./.github/workflows/reusable-tag-image.yaml
+    uses: ./.github/workflows/_reusable-tag-image.yaml
     secrets:
       licence-plate: ${{ secrets.LICENCE_PLATE_PAYMENTS }}
       openshift-api: ${{ secrets.OPENSHIFT_API }}
